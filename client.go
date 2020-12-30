@@ -1,6 +1,7 @@
 package inlock
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -117,11 +118,8 @@ func (c *client) do(method string, ressource string, payload map[string]string, 
 		URL.RawQuery = formData
 		rawurl = URL.String()
 	} else {
-		formValues := url.Values{}
-		for key, value := range payload {
-			formValues.Set(key, value)
-		}
-		formData = formValues.Encode()
+		formDataBytes, _ := json.Marshal(payload)
+		formData = string(formDataBytes)
 	}
 	req, err := http.NewRequest(method, rawurl, strings.NewReader(formData))
 	if err != nil {
