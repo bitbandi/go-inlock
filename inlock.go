@@ -49,8 +49,9 @@ func (i *Inlock) SetDebug(enable bool) {
 }
 
 type Tokens struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+	AccessToken        string `json:"access_token"`
+	RefreshToken       string `json:"refresh_token"`
+	ExpiredIn          int    `json:"expired_in"`
 }
 
 func (i *Inlock) Login(username string, password string) (tokens Tokens, err error) {
