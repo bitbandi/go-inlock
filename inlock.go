@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	API_BASE = "https://api.inlock.io/inlock/api/v0.1" // Inlock API endpoint
+	API_BASE = "https://api.inlock.io/inlock/api/v1.0" // Inlock API endpoint
 )
 
 // New returns an instantiated inlock struct
