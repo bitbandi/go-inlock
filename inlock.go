@@ -59,7 +59,7 @@ func (i *Inlock) Login(username string, password string) (tokens Tokens, err err
 		"username": username,
 		"password": password,
 	}
-	r, err := i.client.do("POST", "public/login", payload, true)
+	r, err := i.client.do("POST", "public/login", payload, false)
 	if err != nil {
 		return
 	}
