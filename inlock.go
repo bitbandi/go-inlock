@@ -13,20 +13,20 @@ const (
 )
 
 // New returns an instantiated inlock struct
-func New(apiKey, apiSecret string) *Inlock {
-	client := NewClient(apiKey, apiSecret)
+func New(accessToken, apiSecret string) *Inlock {
+	client := NewClient(accessToken)
 	return &Inlock{client}
 }
 
 // NewWithCustomHttpClient returns an instantiated inlock struct with custom http client
-func NewWithCustomHttpClient(apiKey, apiSecret string, httpClient *http.Client) *Inlock {
-	client := NewClientWithCustomHttpConfig(apiKey, apiSecret, httpClient)
+func NewWithCustomHttpClient(accessToken string, httpClient *http.Client) *Inlock {
+	client := NewClientWithCustomHttpConfig(accessToken, httpClient)
 	return &Inlock{client}
 }
 
 // NewWithCustomTimeout returns an instantiated inlock struct with custom timeout
-func NewWithCustomTimeout(apiKey, apiSecret string, timeout time.Duration) *Inlock {
-	client := NewClientWithCustomTimeout(apiKey, apiSecret, timeout)
+func NewWithCustomTimeout(accessToken string, timeout time.Duration) *Inlock {
+	client := NewClientWithCustomTimeout(accessToken, timeout)
 	return &Inlock{client}
 }
 
@@ -91,4 +91,8 @@ func (i *Inlock) RefreshToken(refreshToken string) (tokens Tokens, err error) {
 	}
 	err = json.Unmarshal(response.Result.Result["refresh"], &tokens)
 	return
+}
+
+func (i *Inlock) SetAccessToken(accessToken string) {
+	i.client.accessToken = accessToken
 }

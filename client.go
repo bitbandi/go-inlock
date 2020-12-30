@@ -14,30 +14,29 @@ import (
 )
 
 type client struct {
-	accessToken  string
-	refreshToken string
-	httpClient   *http.Client
-	httpTimeout  time.Duration
-	debug        bool
+	accessToken string
+	httpClient  *http.Client
+	httpTimeout time.Duration
+	debug       bool
 }
 
 // NewClient return a new Inlock HTTP client
-func NewClient(accessToken, refreshToken string) (c *client) {
-	return &client{accessToken, refreshToken, &http.Client{}, 30 * time.Second, false}
+func NewClient(accessToken string) (c *client) {
+	return &client{accessToken, &http.Client{}, 30 * time.Second, false}
 }
 
 // NewClientWithCustomHttpConfig returns a new Inlock HTTP client using the predefined http client
-func NewClientWithCustomHttpConfig(accessToken, refreshToken string, httpClient *http.Client) (c *client) {
+func NewClientWithCustomHttpConfig(accessToken string, httpClient *http.Client) (c *client) {
 	timeout := httpClient.Timeout
 	if timeout <= 0 {
 		timeout = 30 * time.Second
 	}
-	return &client{accessToken, refreshToken, httpClient, timeout, false}
+	return &client{accessToken, httpClient, timeout, false}
 }
 
 // NewClient returns a new Inlock HTTP client with custom timeout
-func NewClientWithCustomTimeout(accessToken, refreshToken string, timeout time.Duration) (c *client) {
-	return &client{accessToken, refreshToken, &http.Client{}, timeout, false}
+func NewClientWithCustomTimeout(accessToken string, timeout time.Duration) (c *client) {
+	return &client{accessToken, &http.Client{}, timeout, false}
 }
 
 func (c client) dumpRequest(r *http.Request) {
@@ -132,11 +131,11 @@ func (c *client) do(method string, ressource string, payload map[string]string, 
 
 	// Auth
 	if authNeeded {
-		if len(c.accessToken) == 0 || len(c.refreshToken) == 0 {
+		if len(c.accessToken) == 0 {
 			err = errors.New("You need to set Access Token to call this method")
 			return
 		}
-		req.Header.Add("Authentication", "token "+c.accessToken)
+		req.Header.Add("Authorization", "Bearer "+c.accessToken)
 	}
 
 	resp, err := c.doTimeoutRequest(connectTimer, req)
