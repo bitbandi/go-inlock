@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var ErrUnauthorizedAccess = errors.New("Unauthorized access")
+
 type client struct {
 	accessToken string
 	httpClient  *http.Client
@@ -149,7 +151,9 @@ func (c *client) do(method string, ressource string, payload map[string]string, 
 	if err != nil {
 		return response, err
 	}
-	if resp.StatusCode != 200 && resp.StatusCode != 400 {
+	if resp.StatusCode == 401 {
+		err = ErrUnauthorizedAccess
+	} else if resp.StatusCode != 200 && resp.StatusCode != 400 {
 		//if resp.StatusCode != 200 {
 		err = errors.New(resp.Status)
 	}
