@@ -13,7 +13,7 @@ const (
 )
 
 // New returns an instantiated inlock struct
-func New(accessToken, apiSecret string) *Inlock {
+func New(accessToken string) *Inlock {
 	client := NewClient(accessToken)
 	return &Inlock{client}
 }
