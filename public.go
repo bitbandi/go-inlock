@@ -80,3 +80,35 @@ func (i *Inlock) GetAvailableCoins() (AvailableCoins []Coins, err error) {
 	return res.AvailableCoins, err
 }
 
+type OffersRates struct {
+	Ticker  string  `json:"ticker"`
+	ApyKind float64 `json:"apy_kind,string"`
+	ApyIlk  int     `json:"apy_ilk,string"`
+}
+
+type Offers struct {
+	IlkReq int           `json:"ilk_req,string"`
+	Rates  []OffersRates `json:"rates"`
+}
+
+type offersResult struct {
+	Offers []Offers `json:"offers"`
+}
+
+func (i *Inlock) GetAutoLendApr() (Offers []Offers, err error) {
+	r, err := i.client.do("GET", "public/getAutoLendApr", nil, false)
+	if err != nil {
+		return
+	}
+	var response jsonResponse
+	if err = json.Unmarshal(r, &response); err != nil {
+		return
+	}
+	if err = handleErr(response); err != nil {
+		return
+	}
+	var res offersResult
+	err = json.Unmarshal(response.Result.Result["getAutoLendApr"], &res)
+	return res.Offers, err
+}
+
