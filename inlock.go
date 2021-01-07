@@ -78,7 +78,7 @@ func (i *Inlock) RefreshToken(refreshToken string) (tokens Tokens, err error) {
 	payload := map[string]string{
 		"refresh_token": refreshToken,
 	}
-	r, err := i.client.do("POST", "public/refresh", payload, true)
+	r, err := i.client.do("POST", "public/refresh", payload, false)
 	if err != nil {
 		return
 	}
