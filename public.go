@@ -1,6 +1,9 @@
 package inlock
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strconv"
+)
 
 type getBestAvailableOffersResult struct {
 	BestApr float64 `json:"bestApr,string"`
@@ -112,3 +115,36 @@ func (i *Inlock) GetAutoLendApr() (Offers []Offers, err error) {
 	return res.Offers, err
 }
 
+type LoanOffers struct {
+	LoanAmt float64     `json:"loan_amt"`
+	IntDebt float64 `json:"int_debt"`
+	Apr     float64 `json:"apr"`
+	CollId  int     `json:"coll_id"`
+	CollAmt float64 `json:"coll_amt"`
+	CostIlk float64 `json:"cost_ilk"`
+	CostUsd float64 `json:"cost_usd"`
+}
+
+func (i *Inlock) GetPubCustIndLoanOffers(Amt float64, OverCollaterization int, Duration int, CollaterizationId int) (loanOffers LoanOffers, err error) {
+	params := map[string]string{
+		"coin_id": "9",
+		"amt":     strconv.FormatFloat(Amt, 'f', 8, 64),
+		"oc":      strconv.FormatUint(uint64(OverCollaterization), 10),
+		"dur":     strconv.FormatUint(uint64(Duration), 10),
+		"coll":    strconv.FormatUint(uint64(CollaterizationId), 10),
+	}
+	r, err := i.client.do("GET", "public/getPubCustIndLoanOffers", params, false)
+	if err != nil {
+		return
+	}
+	var response jsonResponse
+	if err = json.Unmarshal(r, &response); err != nil {
+		return
+	}
+	if err = handleErr(response); err != nil {
+		return
+	}
+	var res LoanOffers
+	err = json.Unmarshal(response.Result.Result["getPubCustIndLoanOffers"], &res)
+	return res, err
+}
