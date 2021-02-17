@@ -86,11 +86,11 @@ func (i *Inlock) GetAvailableCoins() (AvailableCoins []Coins, err error) {
 type OffersRates struct {
 	Ticker  string  `json:"ticker"`
 	ApyKind float64 `json:"apy_kind,string"`
-	ApyIlk  int     `json:"apy_ilk,string"`
+	ApyIlk  float64 `json:"apy_ilk,string"`
 }
 
 type Offers struct {
-	IlkReq int           `json:"ilk_req,string"`
+	IlkReq float64       `json:"ilk_req,string"`
 	Rates  []OffersRates `json:"rates"`
 }
 
@@ -116,7 +116,7 @@ func (i *Inlock) GetAutoLendApr() (Offers []Offers, err error) {
 }
 
 type LoanOffers struct {
-	LoanAmt float64     `json:"loan_amt"`
+	LoanAmt float64 `json:"loan_amt"`
 	IntDebt float64 `json:"int_debt"`
 	Apr     float64 `json:"apr"`
 	CollId  int     `json:"coll_id"`
