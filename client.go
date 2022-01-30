@@ -11,10 +11,13 @@ package inlock
 import (
 	"bytes"
 	"context"
+	"crypto/hmac"
+	"crypto/sha512"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/mr-tron/base58"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -27,8 +30,6 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
-
-	"golang.org/x/oauth2"
 )
 
 var (
@@ -288,25 +289,20 @@ func (c *APIClient) prepareRequest(
 
 		// Walk through any authentication.
 
-		// OAuth2 authentication
-		if tok, ok := ctx.Value(ContextOAuth2).(oauth2.TokenSource); ok {
-			// We were able to grab an oauth2 token from the context
-			var latestToken *oauth2.Token
-			if latestToken, err = tok.Token(); err != nil {
+		// APIKey Authentication
+		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+			secret, err := base58.Decode(auth.Secret)
+			if err != nil {
 				return nil, err
 			}
+			h := hmac.New(sha512.New, []byte(secret))
+			h.Write([]byte(url.String()))
+			if body != nil {
+				h.Write(body.Bytes())
+			}
 
-			latestToken.SetAuthHeader(localVarRequest)
-		}
-
-		// Basic HTTP Authentication
-		if auth, ok := ctx.Value(ContextBasicAuth).(BasicAuth); ok {
-			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
-		}
-
-		// AccessToken Authentication
-		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
-			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
+			localVarRequest.Header.Add("X-Apikey", auth.Key)
+			localVarRequest.Header.Add("X-Signature", base58.Encode(h.Sum(nil)))
 		}
 	}
 
