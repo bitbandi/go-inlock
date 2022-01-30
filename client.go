@@ -320,10 +320,20 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		}
 		return nil
 	} else if strings.Contains(contentType, "application/json") {
-		if err = json.Unmarshal(b, v); err != nil {
+		var response APIResponse
+		if err = json.Unmarshal(b, &response); err != nil {
 			return err
 		}
-		return nil
+		if len(response.Error.Code) > 0 {
+			return errors.New(response.Error.Message)
+		}
+		for _, data := range response.Result.ResponseData {
+			if err = json.Unmarshal(data, &v); err != nil {
+				return err
+			}
+			return nil
+		}
+		return errors.New("could not find response data")
 	}
 	return errors.New("undefined response type")
 }

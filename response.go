@@ -9,34 +9,34 @@ package inlock
  */
 
 import (
-	"net/http"
+	"encoding/json"
 )
 
+type APIError struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+}
+
+type APIResult struct {
+	Status       string `json:"status"`
+	ResponseData map[string]json.RawMessage
+}
+
 type APIResponse struct {
-	*http.Response `json:"-"`
-	Message        string `json:"message,omitempty"`
-	// Operation is the name of the swagger operation.
-	Operation string `json:"operation,omitempty"`
-	// RequestURL is the request URL. This value is always available, even if the
-	// embedded *http.Response is nil.
-	RequestURL string `json:"url,omitempty"`
-	// Method is the HTTP method used for the request.  This value is always
-	// available, even if the embedded *http.Response is nil.
-	Method string `json:"method,omitempty"`
-	// Payload holds the contents of the response body (which may be nil or empty).
-	// This is provided here as the raw response.Body() reader will have already
-	// been drained.
-	Payload []byte `json:"-"`
+	Error  APIError  `json:"error,omitempty"`
+	Result APIResult `json:"result"`
 }
 
-func NewAPIResponse(r *http.Response) *APIResponse {
-
-	response := &APIResponse{Response: r}
-	return response
-}
-
-func NewAPIResponseWithError(errorMessage string) *APIResponse {
-
-	response := &APIResponse{Message: errorMessage}
-	return response
+func (rs *APIResult) UnmarshalJSON(b []byte) error {
+	var r map[string]json.RawMessage
+	if err := json.Unmarshal(b, &r); err != nil {
+		return err
+	}
+	s, ok := r["status"]
+	if ok {
+		_ = json.Unmarshal(s, &rs.Status)
+		delete(r, "status")
+	}
+	rs.ResponseData = r
+	return nil
 }
