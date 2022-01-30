@@ -9,7 +9,7 @@ package inlock
  */
 
 // Info about free withdrawals.
-type WithdrawDetailsRetailRespFeeInfo struct {
+type WithdrawDetailsRespFeeInfo struct {
 	// True if this withdraw will be free by zero withdraw fee, otherwise false
 	FreeWithdraw bool `json:"free_withdraw,omitempty"`
 	// True if this withdraws fee will be waived, otherwise false

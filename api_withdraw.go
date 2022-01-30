@@ -29,7 +29,7 @@ WithdrawApiService Requests a new withdrawal from user balance.:tag withdraw
  * @param body
 @return StartWithdrawResp
 */
-func (a *WithdrawApiService) RetailStartWithdrawPost(ctx context.Context, body RetailStartWithdrawBody) (StartWithdrawResp, *http.Response, error) {
+func (a *WithdrawApiService) StartWithdraw(ctx context.Context, body StartWithdrawBody) (StartWithdrawResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}

@@ -27,15 +27,15 @@ type AddressApiService service
 AddressApiService Returns the data necessary for managing user wallet withdrawals.:tag address
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param ticker Ticker of the coin.
-@return WithdrawDetailsRetailResp
+@return WithdrawDetailsResp
 */
-func (a *AddressApiService) RetailGetWithdrawDetailsGet(ctx context.Context, ticker string) (WithdrawDetailsRetailResp, *http.Response, error) {
+func (a *AddressApiService) GetWithdrawDetails(ctx context.Context, ticker string) (WithdrawDetailsResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue WithdrawDetailsRetailResp
+		localVarReturnValue WithdrawDetailsResp
 	)
 
 	// create path and map variables
@@ -93,7 +93,7 @@ func (a *AddressApiService) RetailGetWithdrawDetailsGet(ctx context.Context, tic
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v WithdrawDetailsRetailResp
+			var v WithdrawDetailsResp
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -124,7 +124,7 @@ AddressApiService Returns the deposit addresses of the user for the given coin I
  * @param ticker Tickoer of the coin.
 @return DepositAddressesResp
 */
-func (a *AddressApiService) RetailListDepositAddressesGet(ctx context.Context, ticker string) (DepositAddressesResp, *http.Response, error) {
+func (a *AddressApiService) ListDepositAddresses(ctx context.Context, ticker string) (DepositAddressesResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}

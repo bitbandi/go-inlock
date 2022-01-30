@@ -29,7 +29,7 @@ TokenmarketApiService Buy token:tag _tokenmarket
  * @param body
 @return OrderIdResp
 */
-func (a *TokenmarketApiService) RetailBuyTokenLimitPost(ctx context.Context, body RetailBuyTokenLimitBody) (OrderIdResp, *http.Response, error) {
+func (a *TokenmarketApiService) BuyTokenLimit(ctx context.Context, body BuyTokenLimitBody) (OrderIdResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -113,15 +113,15 @@ func (a *TokenmarketApiService) RetailBuyTokenLimitPost(ctx context.Context, bod
 TokenmarketApiService Returns all of the orderbook for the given trading pair:tag _tokenmarket
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param pair
-@return OrderBookRetailResp
+@return OrderBookResp
 */
-func (a *TokenmarketApiService) RetailGetTokenMarketGet(ctx context.Context, pair string) (OrderBookRetailResp, *http.Response, error) {
+func (a *TokenmarketApiService) GetTokenMarket(ctx context.Context, pair string) (OrderBookResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue OrderBookRetailResp
+		localVarReturnValue OrderBookResp
 	)
 
 	// create path and map variables
@@ -179,7 +179,7 @@ func (a *TokenmarketApiService) RetailGetTokenMarketGet(ctx context.Context, pai
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v OrderBookRetailResp
+			var v OrderBookResp
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -200,7 +200,7 @@ TokenmarketApiService Sell token:tag _tokenmarket
  * @param body
 @return OrderIdResp
 */
-func (a *TokenmarketApiService) RetailSellTokenLimitPost(ctx context.Context, body RetailSellTokenLimitBody) (OrderIdResp, *http.Response, error) {
+func (a *TokenmarketApiService) SellTokenLimit(ctx context.Context, body SellTokenLimitBody) (OrderIdResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}

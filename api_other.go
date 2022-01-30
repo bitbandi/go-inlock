@@ -30,7 +30,7 @@ OtherApiService Buy token on INLOCK Tokenmarket (market order, instant fulfilled
  * @param body
 @return BuyTokenMarketResult
 */
-func (a *OtherApiService) RetailBuyTokenMarketPost(ctx context.Context, body RetailBuyTokenMarketBody) (BuyTokenMarketResult, *http.Response, error) {
+func (a *OtherApiService) BuyTokenMarket(ctx context.Context, body BuyTokenMarketBody) (BuyTokenMarketResult, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -123,16 +123,16 @@ func (a *OtherApiService) RetailBuyTokenMarketPost(ctx context.Context, body Ret
 /*
 OtherApiService Get detailed balance of a customer
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetBalanceGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetBalanceOpts - Optional Parameters:
      * @param "Fiat" (optional.String) -  All balance information will be available in this fiat too (default: USD)
 @return BalanceResp
 */
 
-type OtherApiRetailGetBalanceGetOpts struct {
+type OtherApiGetBalanceOpts struct {
 	Fiat optional.String
 }
 
-func (a *OtherApiService) RetailGetBalanceGet(ctx context.Context, localVarOptionals *OtherApiRetailGetBalanceGetOpts) (BalanceResp, *http.Response, error) {
+func (a *OtherApiService) GetBalance(ctx context.Context, localVarOptionals *OtherApiGetBalanceOpts) (BalanceResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -216,18 +216,18 @@ func (a *OtherApiService) RetailGetBalanceGet(ctx context.Context, localVarOptio
 /*
 OtherApiService Returns the loan related events of the user.param after_id: Last retrieved ID of the client. Records after this one is returned. Default value: null.param count: Number of entries queried. Default: 60. Max: 100return: Loan history records.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetLoanHistoryGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetLoanHistoryOpts - Optional Parameters:
      * @param "AfterId" (optional.Int64) -
      * @param "Count" (optional.Int64) -
 @return LoanHistoryResp
 */
 
-type OtherApiRetailGetLoanHistoryGetOpts struct {
+type OtherApiGetLoanHistoryOpts struct {
 	AfterId optional.Int64
 	Count   optional.Int64
 }
 
-func (a *OtherApiService) RetailGetLoanHistoryGet(ctx context.Context, localVarOptionals *OtherApiRetailGetLoanHistoryGetOpts) (LoanHistoryResp, *http.Response, error) {
+func (a *OtherApiService) GetLoanHistory(ctx context.Context, localVarOptionals *OtherApiGetLoanHistoryOpts) (LoanHistoryResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -314,7 +314,7 @@ func (a *OtherApiService) RetailGetLoanHistoryGet(ctx context.Context, localVarO
 /*
 OtherApiService Returns the swap related events of the user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetSwapHistoryGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetSwapHistoryOpts - Optional Parameters:
      * @param "CoinFrom" (optional.String) -  Coin ticker to filter swap events. Default: null
      * @param "CoinTo" (optional.String) -  Coin ticker to filter swap events. Default: null
      * @param "AfterId" (optional.Int64) -  Last retrieved ID of the client. Records after this one is returned. Default value: null.
@@ -322,14 +322,14 @@ OtherApiService Returns the swap related events of the user.
 @return SwapHistoryResp
 */
 
-type OtherApiRetailGetSwapHistoryGetOpts struct {
+type OtherApiGetSwapHistoryOpts struct {
 	CoinFrom optional.String
 	CoinTo   optional.String
 	AfterId  optional.Int64
 	Count    optional.Int64
 }
 
-func (a *OtherApiService) RetailGetSwapHistoryGet(ctx context.Context, localVarOptionals *OtherApiRetailGetSwapHistoryGetOpts) (SwapHistoryResp, *http.Response, error) {
+func (a *OtherApiService) GetSwapHistory(ctx context.Context, localVarOptionals *OtherApiGetSwapHistoryOpts) (SwapHistoryResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -422,20 +422,20 @@ func (a *OtherApiService) RetailGetSwapHistoryGet(ctx context.Context, localVarO
 /*
 OtherApiService Returns the tokenmarket limit orders of the user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetTmLimitHistoryGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetTmLimitHistoryOpts - Optional Parameters:
      * @param "Coin" (optional.String) -  Ticker to filter orders. Default: null
      * @param "AfterId" (optional.Int64) -  Last retrieved ID of the client. Records after this one is returned. Default value: null.
      * @param "Count" (optional.Int64) -  Number of entries queried. Default: 60. Max: 100
 @return TmHistoryResp
 */
 
-type OtherApiRetailGetTmLimitHistoryGetOpts struct {
+type OtherApiGetTmLimitHistoryOpts struct {
 	Coin    optional.String
 	AfterId optional.Int64
 	Count   optional.Int64
 }
 
-func (a *OtherApiService) RetailGetTmLimitHistoryGet(ctx context.Context, localVarOptionals *OtherApiRetailGetTmLimitHistoryGetOpts) (TmHistoryResp, *http.Response, error) {
+func (a *OtherApiService) GetTmLimitHistory(ctx context.Context, localVarOptionals *OtherApiGetTmLimitHistoryOpts) (TmHistoryResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -525,20 +525,20 @@ func (a *OtherApiService) RetailGetTmLimitHistoryGet(ctx context.Context, localV
 /*
 OtherApiService Returns the tokenmarket market orders of the user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetTmMarketHistoryGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetTmMarketHistoryOpts - Optional Parameters:
      * @param "Coin" (optional.String) -  Ticker to filter orders. Default: null
      * @param "AfterId" (optional.Int64) -  Last retrieved ID of the client. Records after this one is returned. Default value: null.
      * @param "Count" (optional.Int64) -  Number of entries queried. Default: 60. Max: 100
 @return TmHistoryResp
 */
 
-type OtherApiRetailGetTmMarketHistoryGetOpts struct {
+type OtherApiGetTmMarketHistoryOpts struct {
 	Coin    optional.String
 	AfterId optional.Int64
 	Count   optional.Int64
 }
 
-func (a *OtherApiService) RetailGetTmMarketHistoryGet(ctx context.Context, localVarOptionals *OtherApiRetailGetTmMarketHistoryGetOpts) (TmHistoryResp, *http.Response, error) {
+func (a *OtherApiService) GetTmMarketHistory(ctx context.Context, localVarOptionals *OtherApiGetTmMarketHistoryOpts) (TmHistoryResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -628,20 +628,20 @@ func (a *OtherApiService) RetailGetTmMarketHistoryGet(ctx context.Context, local
 /*
 OtherApiService Returns the wallet related events of the user.param coin: Coin ticker to filter wallet history. Default: nullparam after_id: Last retrieved ID of the client. Records after this one is returned. Default value: null.param count: Number of entries queried. Default: 60. Max: 100return: Wallet history records.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *OtherApiRetailGetWalletHistoryGetOpts - Optional Parameters:
+ * @param optional nil or *OtherApiGetWalletHistoryOpts - Optional Parameters:
      * @param "Coin" (optional.String) -
      * @param "AfterId" (optional.Int64) -
      * @param "Count" (optional.Int64) -
 @return WalletHistoryResp
 */
 
-type OtherApiRetailGetWalletHistoryGetOpts struct {
+type OtherApiGetWalletHistoryOpts struct {
 	Coin    optional.String
 	AfterId optional.Int64
 	Count   optional.Int64
 }
 
-func (a *OtherApiService) RetailGetWalletHistoryGet(ctx context.Context, localVarOptionals *OtherApiRetailGetWalletHistoryGetOpts) (WalletHistoryResp, *http.Response, error) {
+func (a *OtherApiService) GetWalletHistory(ctx context.Context, localVarOptionals *OtherApiGetWalletHistoryOpts) (WalletHistoryResp, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -734,7 +734,7 @@ OtherApiService Sell token on INLOCK Tokenmarket (market order, instantly fulfil
  * @param body
 @return SellTokenMarketResult
 */
-func (a *OtherApiService) RetailSellTokenMarketPost(ctx context.Context, body RetailSellTokenMarketBody) (SellTokenMarketResult, *http.Response, error) {
+func (a *OtherApiService) SellTokenMarket(ctx context.Context, body SellTokenMarketBody) (SellTokenMarketResult, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
